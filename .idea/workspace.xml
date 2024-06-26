@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="08c4cc86-39ad-4034-8bf0-49c7bd4badaa" name="Changes" comment="added preprocessing and fine_tune_model and other minor changes">
-      <change beforePath="$PROJECT_DIR$/datastructure/input-file.json" beforeDir="false" afterPath="$PROJECT_DIR$/datastructure/input-file.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datastructure/preprocessed-file.json" beforeDir="false" afterPath="$PROJECT_DIR$/datastructure/preprocessed-file.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datastructure/user-query-input.json" beforeDir="false" afterPath="$PROJECT_DIR$/datastructure/user-query-input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datastructure/user-query-response.json" beforeDir="false" afterPath="$PROJECT_DIR$/datastructure/user-query-response.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/1.json" beforeDir="false" afterPath="$PROJECT_DIR$/output/1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_data/article_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/sample_data/article_1.json" afterDir="false" />
-    </list>
+    <list default="true" id="08c4cc86-39ad-4034-8bf0-49c7bd4badaa" name="Changes" comment="added preprocessing and fine_tune_model and other minor changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
