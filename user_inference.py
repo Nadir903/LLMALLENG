@@ -5,6 +5,7 @@ import json
 import requests as r
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
+from langdetect import detect
 
 # Done Implement the inference logic here
 
@@ -16,15 +17,18 @@ model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 # Function to handle user query
 def handle_user_query(query, query_id, output_path):
+    """
+    Translates the user query and returns the orginal language and the translated text.
+    """
     inputs = tokenizer.encode(query, return_tensors="pt", truncation=True)
     outputs = model.generate(inputs)
     translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    language = detect(query)
 
     result = {
         "generated_queries": [translation],
-        "detected_language": "en",
+        "detected_original_language": language,
     }
-
     with open(join(output_path, f"{query_id}.json"), "w") as f:
         json.dump(result, f)
 
