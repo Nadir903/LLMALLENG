@@ -4,13 +4,11 @@
 # The input files will adhere to the format specified in datastructure/input-file.json
 
 import json
-from os.path import join, split as split_path
+from os.path import join
 from datasets import load_dataset
-# This is a useful argparse-setup, you probably want to use in your project:
 import argparse
+import os
 
-
-# Done Implement the preprocessing steps here
 
 # Function to preprocess data
 def preprocess_data(dataset, source_lang, target_lang):
@@ -24,15 +22,17 @@ def preprocess_data(dataset, source_lang, target_lang):
 
 # Function to handle input file and save preprocessed data
 def handle_input_file(file_location, output_path):
+    print(f"Processing file: {file_location}")
+
     # Load datasets
     dataset_es_en = load_dataset("opus100", "en-es")
     dataset_tr_en = load_dataset("opus100", "en-tr")
     dataset_ar_en = load_dataset("opus100", "ar-en")
 
     # Preprocess datasets using the correct keys
-    source_texts_es_en, target_texts_es_en = preprocess_data(dataset_es_en, 'en', 'es')
-    source_texts_tr_en, target_texts_tr_en = preprocess_data(dataset_tr_en, 'en', 'tr')
-    source_texts_ar_en, target_texts_ar_en = preprocess_data(dataset_ar_en, 'en', 'ar')
+    source_texts_es_en, target_texts_es_en = preprocess_data(dataset_es_en, 'es', 'en')
+    source_texts_tr_en, target_texts_tr_en = preprocess_data(dataset_tr_en, 'tr', 'en')
+    source_texts_ar_en, target_texts_ar_en = preprocess_data(dataset_ar_en, 'ar', 'en')
 
     # Combine data into a single list for each language pair
     combined_source_texts = source_texts_es_en + source_texts_tr_en + source_texts_ar_en
@@ -61,9 +61,12 @@ if __name__ == "__main__":
     files_inp = args.input
     files_out = args.output
 
+    # Create output directory if it doesn't exist
+    os.makedirs(files_out, exist_ok=True)
+
     for file_location in files_inp:
         handle_input_file(file_location, files_out)
 
-
-#python user_preprocess.py --input /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/sample_data/article_1.json --output /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/Preproced
+#python3 user_preprocess.py --input sample_data/article_1.json --output output
+#python3 user_preprocess.py --input sample_data/article_1.json --output output_directory
 

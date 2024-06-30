@@ -51,3 +51,5 @@ if __name__ == "__main__":
 #Translation Step
 
 #python user_inference.py --query "Translate this text" --query_id 1 --output /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/output
+#python user_inference.py --query "Translate this text" --query_id 1 --output /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/output
+#python3 user_inference.py --query "bunu cevir" --query_id 1 --output output
