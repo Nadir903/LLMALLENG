@@ -67,6 +67,6 @@ if __name__ == "__main__":
     for file_location in files_inp:
         handle_input_file(file_location, files_out)
 
-#python3 user_preprocess.py --input sample_data/article_1.json --output output
-#python3 user_preprocess.py --input sample_data/article_1.json --output output_directory
+
+# to run : python user_preprocess.py --input sample_data/article_1.json --output output
 

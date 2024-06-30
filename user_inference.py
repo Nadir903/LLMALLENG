@@ -1,10 +1,9 @@
 # This file will be executed when a user wants to query your project.
 import argparse
-from os.path import join
 import json
-import requests as r
+from os.path import join
+
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import torch
 
 # Done Implement the inference logic here
 #Tokenizer
@@ -50,6 +49,4 @@ if __name__ == "__main__":
 
 #Translation Step
 
-#python user_inference.py --query "Translate this text" --query_id 1 --output /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/output
-#python user_inference.py --query "Translate this text" --query_id 1 --output /Users/nadiralcalde/Seminarios/Generative_AI_and_Democracy/LLMALLENG/output
-#python3 user_inference.py --query "bunu cevir" --query_id 1 --output output
+# to run : python user_inference.py --query "bunu cevir" --query_id 1 --output output
