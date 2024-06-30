@@ -61,6 +61,25 @@ else:
 # Move model to the device
 model.to(device)
 
+# Define a function to explicitly move internal tensors to the MPS device
+def move_tensors_to_device(tensor, device):
+    if isinstance(tensor, torch.Tensor):
+        return tensor.to(device)
+    elif isinstance(tensor, (list, tuple)):
+        return type(tensor)(move_tensors_to_device(t, device) for t in tensor)
+    elif isinstance(tensor, dict):
+        return {k: move_tensors_to_device(v, device) for k, v in tensor.items()}
+    else:
+        return tensor
+
+# Custom Trainer to move inputs to MPS device
+class CustomTrainer(Trainer):
+    def training_step(self, model, inputs):
+        # Move inputs to the correct device
+        inputs = move_tensors_to_device(inputs, device)
+        model = model.to(device)
+        return super().training_step(model, inputs)
+
 # Define training arguments
 training_args = TrainingArguments(
     output_dir="./results",
@@ -75,16 +94,19 @@ training_args = TrainingArguments(
     save_steps=500,
     logging_steps=50,  # log every 50 steps
     logging_dir='./logs',
-    gradient_accumulation_steps=4,  # accumulate gradients over 4 steps
-    use_mps_device=True  # Use MPS device if available
+    gradient_accumulation_steps=4  # accumulate gradients over 4 steps
 )
 
-# Custom Trainer to move inputs to MPS device
-class CustomTrainer(Trainer):
-    def training_step(self, model, inputs):
-        # Move inputs to the correct device
-        inputs = {k: v.to(device) for k, v in inputs.items()}
-        return super().training_step(model, inputs)
+# Ensure internal states in the forward pass are on MPS device
+class CustomModel(AutoModelForSeq2SeqLM):
+    def forward(self, *args, **kwargs):
+        # Move all inputs and kwargs to the correct device
+        args = tuple(move_tensors_to_device(arg, device) for arg in args)
+        kwargs = {k: move_tensors_to_device(v, device) for k, v in kwargs.items()}
+        return super().forward(*args, **kwargs)
+
+# Initialize the model with the custom class
+model = CustomModel.from_pretrained(model_name).to(device)
 
 # Initialize the Trainer
 trainer = CustomTrainer(
@@ -103,5 +125,3 @@ print("Training completed.")
 # Save the model
 trainer.save_model("fine_tuned_model")
 tokenizer.save_pretrained("fine_tuned_model")
-
-# python FineTunning/fine_tune_model.py
