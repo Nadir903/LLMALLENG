@@ -50,11 +50,11 @@ else:
     print("Train dataset not found in the tokenized dataset.")
 
 # Use a smaller subset for quick iteration
-small_train_dataset = tokenized_dataset["train"].select(range(10000))  # Select only 10,000 examples for training
+small_train_dataset = tokenized_dataset["train"].select(range(10000))
 
-# Explicitly set the device to CPU
-device = torch.device("cpu")
-print("Using CPU device")
+# Explicitly set the device to GPU
+device = torch.device("cuda")
+print("Using GPU device")
 
 # Move model to the device
 model.to(device)
@@ -84,23 +84,22 @@ class CustomTrainer(Trainer):
 # Define training arguments
 training_args = TrainingArguments(
     output_dir="./results",
-    eval_strategy="steps",  # updated key for more frequent evaluation
-    eval_steps=100,  # evaluate every 100 steps
+    eval_strategy="steps",
+    eval_steps=100,
     learning_rate=2e-5,
-    per_device_train_batch_size=8,  # increased batch size
-    per_device_eval_batch_size=8,  # increased batch size
-    num_train_epochs=1,  # reduce to 1 epoch for quick iteration
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    num_train_epochs=1,
     weight_decay=0.01,
     save_total_limit=3,
     save_steps=500,
     logging_steps=50,  # log every 50 steps
     logging_dir='./logs',
-    gradient_accumulation_steps=4,  # accumulate gradients over 4 steps
-    use_mps_device=False  # Ensure not using MPS device
+    gradient_accumulation_steps=4,
+    use_mps_device=False
 )
 
 
-# Ensure internal states in the forward pass are on CPU device
 class CustomModel(AutoModelForSeq2SeqLM):
     def forward(self, *args, **kwargs):
         # Move all inputs and kwargs to the correct device
@@ -127,7 +126,7 @@ trainer.train()
 print("Training completed.")
 
 # Save the model
-trainer.save_model("fine_tuned_model")
-tokenizer.save_pretrained("fine_tuned_model")
+trainer.save_model("fine_tuned_model_GPU")
+tokenizer.save_pretrained("fine_tuned_model_GPU")
 
-# to run : python fine_tune_model.py
+# to run : python fine_tune_model_GPU.py

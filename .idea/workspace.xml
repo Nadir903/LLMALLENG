@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08c4cc86-39ad-4034-8bf0-49c7bd4badaa" name="Changes" comment="added preprocessing and fine_tune_model and other minor changes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/evaluate_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fine_tune_model_GPU.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FineTunning/fine_tune_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/FineTunning/fine_tune_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fine_tune_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/fine_tune_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +171,8 @@
       <workItem from="1719592077134" duration="7000" />
       <workItem from="1719611996184" duration="65000" />
       <workItem from="1719613334538" duration="64000" />
-      <workItem from="1719755354529" duration="10411000" />
+      <workItem from="1719755354529" duration="15210000" />
+      <workItem from="1719832522612" duration="1040000" />
     </task>
     <task id="LOCAL-00001" summary="added preprocessing and fine_tune_model">
       <option name="closed" value="true" />
