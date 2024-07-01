@@ -5,7 +5,6 @@ import argparse
 import os
 
 
-# Function to preprocess data
 def preprocess_data(dataset, source_lang, target_lang):
     transformed_representation = []
     source_texts = []
@@ -19,7 +18,6 @@ def preprocess_data(dataset, source_lang, target_lang):
     return transformed_representation, source_texts, target_texts
 
 
-# Function to handle input file and save preprocessed data
 def handle_input_file(file_location, output_path):
     file_name = split_path(file_location)[-1]
     preprocessed_file_name = f"{file_name}"
@@ -33,29 +31,26 @@ def handle_input_file(file_location, output_path):
     print(f"Processing file: {file_location}")
 
     # Load datasets
+    # Preprocess datasets using the correct keys
+    # Combine data into a single list for each language pair
+
     dataset_es_en = load_dataset("opus100", "en-es")
     dataset_tr_en = load_dataset("opus100", "en-tr")
     dataset_ar_en = load_dataset("opus100", "ar-en")
-
-    # Preprocess datasets using the correct keys
     transformed_representation_es_en, source_texts_es_en, target_texts_es_en = preprocess_data(dataset_es_en, 'es',
                                                                                                'en')
     transformed_representation_tr_en, source_texts_tr_en, target_texts_tr_en = preprocess_data(dataset_tr_en, 'tr',
                                                                                                'en')
     transformed_representation_ar_en, source_texts_ar_en, target_texts_ar_en = preprocess_data(dataset_ar_en, 'ar',
                                                                                                'en')
-
-    # Combine data into a single list for each language pair
     combined_transformed_representation = transformed_representation_es_en + transformed_representation_tr_en + transformed_representation_ar_en
     combined_source_texts = source_texts_es_en + source_texts_tr_en + source_texts_ar_en
     combined_target_texts = target_texts_es_en + target_texts_tr_en + target_texts_ar_en
 
-    # Save preprocessed data to JSON
     save_to_json(combined_transformed_representation, combined_source_texts, combined_target_texts, output_path,
                  preprocessed_file_name, source_texts_file, target_texts_file)
 
 
-# Function to save data to JSON file
 def save_to_json(transformed_representation, source_texts, target_texts, output_path, preprocessed_file_name,
                  source_texts_file, target_texts_file):
     preprocessed_data = {
@@ -83,10 +78,7 @@ if __name__ == "__main__":
     files_inp = args.input
     files_out = args.output
 
-    # Create output directory if it doesn't exist
     os.makedirs(files_out, exist_ok=True)
 
     for file_location in files_inp:
         handle_input_file(file_location, files_out)
-
-# to run: python user_preprocess.py --input sample_data/article_1.json --output output

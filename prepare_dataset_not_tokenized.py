@@ -1,4 +1,3 @@
-# prepare_dataset_not_tokenized.py
 import json
 from datasets import Dataset
 import os

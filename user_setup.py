@@ -1,4 +1,3 @@
-# user_setup.py
 # This file is used to setup the project. It is executed when the project is imported.
 # This file should be used to download all large files (e.g., model weights) and store them to disk.
 # In this file, you can also check if the environment works as expected.

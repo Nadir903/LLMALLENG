@@ -1,23 +1,20 @@
-# user_inference.py
 import argparse
 import json
 from os.path import join
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-# Load the tokenizer and model
 model_name = "fine_tuned_model"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
 
-# Function to handle user query
 def handle_user_query(query, query_id, output_path):
     inputs = tokenizer.encode(query, return_tensors="pt", truncation=True)
     outputs = model.generate(inputs)
     translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     result = {
-        "generated_query": translation,  # Updated to match the expected key
+        "generated_query": translation,
         "detected_language": "en",
     }
 
