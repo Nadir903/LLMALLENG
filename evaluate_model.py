@@ -40,6 +40,7 @@ test_dataset = test_dataset.shuffle(seed=42).select(range(3000))
 logger.info("Loading evaluation metric sacrebleu")
 metric = evaluate.load("sacrebleu", trust_remote_code=True)
 
+
 # Tokenize and generate predictions
 def evaluate_model(model, tokenizer, dataset):
     logger.info("Starting evaluation...")
@@ -51,8 +52,9 @@ def evaluate_model(model, tokenizer, dataset):
     references = []
 
     for i, example in enumerate(dataset):
-        logger.info(f"Processing example {i+1}/{len(dataset)}")
-        inputs = tokenizer.encode(example['source_texts'], return_tensors="pt", truncation=True, max_length=128).to(device)
+        logger.info(f"Processing example {i + 1}/{len(dataset)}")
+        inputs = tokenizer.encode(example['source_texts'], return_tensors="pt", truncation=True, max_length=128).to(
+            device)
         targets = example['target_texts']
         with torch.no_grad():
             outputs = model.generate(inputs, max_length=128)
@@ -62,6 +64,7 @@ def evaluate_model(model, tokenizer, dataset):
 
     logger.info("Computing metric")
     return metric.compute(predictions=predictions, references=references)
+
 
 # Run evaluation
 logger.info("Running evaluation")
