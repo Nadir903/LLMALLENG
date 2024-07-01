@@ -80,23 +80,22 @@ class CustomTrainer(Trainer):
         model = model.to(device)
         return super().training_step(model, inputs)
 
-
-# Define training arguments
+# Define training arguments with adjusted hyperparameters
 training_args = TrainingArguments(
     output_dir="./results",
-    eval_strategy="steps",
-    eval_steps=100,
-    learning_rate=2e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=1,
+    evaluation_strategy="steps",  # Use `evaluation_strategy` instead of `eval_strategy`
+    eval_steps=100,  # Evaluate every 100 steps
+    learning_rate=2e-5,  # Adjust learning rate if needed
+    per_device_train_batch_size=8,  # Adjust batch size if needed
+    per_device_eval_batch_size=8,  # Adjust batch size if needed
+    num_train_epochs=3,  # Increase the number of epochs
     weight_decay=0.01,
     save_total_limit=3,
     save_steps=500,
-    logging_steps=50,  # log every 50 steps
+    logging_steps=50,  # Log every 50 steps
     logging_dir='./logs',
     gradient_accumulation_steps=4,
-    use_mps_device=False
+    use_mps_device=False  # Ensure not using MPS device
 )
 
 
