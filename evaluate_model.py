@@ -1,16 +1,16 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from datasets import load_metric, Dataset
+from datasets import load_from_disk, Dataset
+import evaluate
 import torch
 import json
 
 # Load the fine-tuned model and tokenizer
-# Change to fine_tuned_model_GPU if necessary
 model_name = "fine_tuned_model"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-# Load the test dataset (this should be prepared similarly to your training data)
-test_data_path = 'path_to_your_test_data'  # Update with the correct path
+# Load the test dataset
+test_data_path = 'output'  # Path to the directory containing test data (same as output from user_preprocess.py)
 source_texts_path = f'{test_data_path}/source_texts.json'
 target_texts_path = f'{test_data_path}/target_texts.json'
 
@@ -24,11 +24,11 @@ with open(target_texts_path, 'r', encoding='utf-8') as f:
 test_dataset = Dataset.from_dict({"source_texts": source_texts, "target_texts": target_texts})
 
 # Define the evaluation metric
-metric = load_metric("sacrebleu")
+metric = evaluate.load("sacrebleu", trust_remote_code=True)
 
 
 # Tokenize and generate predictions
-def evaluate(model, tokenizer, dataset):
+def evaluate_model(model, tokenizer, dataset):
     model.eval()
     device = torch.device("cpu")
     model.to(device)
@@ -50,7 +50,5 @@ def evaluate(model, tokenizer, dataset):
 
 
 # Run evaluation
-results = evaluate(model, tokenizer, test_dataset)
+results = evaluate_model(model, tokenizer, test_dataset)
 print(f"Evaluation Results: {results}")
-
-# To run: python evaluate_model.py
