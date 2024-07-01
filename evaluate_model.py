@@ -52,3 +52,5 @@ def evaluate_model(model, tokenizer, dataset):
 # Run evaluation
 results = evaluate_model(model, tokenizer, test_dataset)
 print(f"Evaluation Results: {results}")
+
+# to run : python evaluate_model.py
