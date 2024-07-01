@@ -1,6 +1,7 @@
-# prepare_dataset.py
+# prepare_dataset_not_tokenized.py
 import json
 from datasets import Dataset
+import os
 
 
 def load_data(source_file, target_file):
@@ -17,13 +18,14 @@ def create_dataset(source_texts, target_texts):
     return dataset
 
 
-source_texts_file = 'output/source_texts.json'
-target_texts_file = 'output/target_texts.json'
+output_dir = 'output'
+source_texts_file = os.path.join(output_dir, 'source_texts.json')
+target_texts_file = os.path.join(output_dir, 'target_texts.json')
 
-source_texts, target_texts = load_data(source_texts_file, target_texts_file)
-dataset = create_dataset(source_texts, target_texts)
-
-dataset.save_to_disk('not_tokenized_dataset')
-
-# to run : python prepare_dataset_not_tokenized.py
-
+if not os.path.exists(source_texts_file) or not os.path.exists(target_texts_file):
+    print(f"One or both files not found: {source_texts_file}, {target_texts_file}")
+else:
+    source_texts, target_texts = load_data(source_texts_file, target_texts_file)
+    dataset = create_dataset(source_texts, target_texts)
+    dataset.save_to_disk('not_tokenized_dataset')
+    print("Dataset saved to 'not_tokenized_dataset'")

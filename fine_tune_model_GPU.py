@@ -50,7 +50,7 @@ else:
     print("Train dataset not found in the tokenized dataset.")
 
 # Use a smaller subset for quick iteration
-small_train_dataset = tokenized_dataset["train"].select(range(10000))
+small_train_dataset = tokenized_dataset["train"].select(range(1000))
 
 # Explicitly set the device to GPU
 device = torch.device("cuda")
@@ -80,25 +80,27 @@ class CustomTrainer(Trainer):
         model = model.to(device)
         return super().training_step(model, inputs)
 
-# Define training arguments with adjusted hyperparameters
+
+# Define training arguments
 training_args = TrainingArguments(
     output_dir="./results",
-    evaluation_strategy="steps",  # Use `evaluation_strategy` instead of `eval_strategy`
-    eval_steps=100,  # Evaluate every 100 steps
-    learning_rate=2e-5,  # Adjust learning rate if needed
-    per_device_train_batch_size=8,  # Adjust batch size if needed
-    per_device_eval_batch_size=8,  # Adjust batch size if needed
-    num_train_epochs=3,  # Increase the number of epochs
+    evaluation_strategy="steps",
+    eval_steps=100,
+    learning_rate=2e-5,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    num_train_epochs=3,
     weight_decay=0.01,
     save_total_limit=3,
     save_steps=500,
-    logging_steps=50,  # Log every 50 steps
+    logging_steps=50,
     logging_dir='./logs',
     gradient_accumulation_steps=4,
-    use_mps_device=False  # Ensure not using MPS device
+    use_mps_device=False
 )
 
 
+# Ensure internal states in the forward pass are on CPU device
 class CustomModel(AutoModelForSeq2SeqLM):
     def forward(self, *args, **kwargs):
         # Move all inputs and kwargs to the correct device
@@ -115,7 +117,7 @@ trainer = CustomTrainer(
     model=model,
     args=training_args,
     train_dataset=small_train_dataset,
-    eval_dataset=small_train_dataset,  # temporarily using train as eval for debugging
+    eval_dataset=small_train_dataset,
     tokenizer=tokenizer
 )
 
@@ -128,4 +130,4 @@ print("Training completed.")
 trainer.save_model("fine_tuned_model_GPU")
 tokenizer.save_pretrained("fine_tuned_model_GPU")
 
-# to run : python fine_tune_model_GPU.py
+# To run: python fine_tune_model.py

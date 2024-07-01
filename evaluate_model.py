@@ -1,3 +1,4 @@
+# evaluate_model.py
 import logging
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from datasets import Dataset
@@ -34,7 +35,7 @@ test_dataset = Dataset.from_dict({"source_texts": source_texts, "target_texts": 
 
 # Shuffle and reduce the dataset size to 300 examples
 logger.info("Shuffling and reducing dataset size to 300 examples")
-test_dataset = test_dataset.shuffle(seed=42).select(range(3000))
+test_dataset = test_dataset.shuffle(seed=42).select(range(300))
 
 # Define the evaluation metric
 logger.info("Loading evaluation metric sacrebleu")

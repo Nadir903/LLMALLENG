@@ -1,15 +1,11 @@
-# This file will be executed when a user wants to query your project.
+# user_inference.py
 import argparse
 import json
 from os.path import join
-
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-# Done Implement the inference logic here
-#Tokenizer
-
-# Load the tokenizer and model :pip install sentencepiece
-model_name = "Helsinki-NLP/opus-mt-mul-en"
+# Load the tokenizer and model
+model_name = "fine_tuned_model"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
@@ -21,7 +17,7 @@ def handle_user_query(query, query_id, output_path):
     translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     result = {
-        "generated_queries": [translation],
+        "generated_query": translation,  # Updated to match the expected key
         "detected_language": "en",
     }
 
@@ -29,7 +25,6 @@ def handle_user_query(query, query_id, output_path):
         json.dump(result, f)
 
 
-# This is a sample argparse-setup, you probably want to use in your project:
 parser = argparse.ArgumentParser(description='Run the inference.')
 parser.add_argument('--query', type=str, help='The user query.', required=True, action="append")
 parser.add_argument('--query_id', type=str, help='The IDs for the queries, in the same order as the queries.',
@@ -46,7 +41,3 @@ if __name__ == "__main__":
 
     for query, query_id in zip(queries, query_ids):
         handle_user_query(query, query_id, output)
-
-#Translation Step
-
-# to run : python user_inference.py --query "bunu cevir" --query_id 1 --output output
