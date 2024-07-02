@@ -2,6 +2,7 @@
 import argparse
 import json
 from os.path import join
+from langdetect import detect
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
@@ -19,10 +20,11 @@ def handle_user_query(query, query_id, output_path):
     inputs = tokenizer.encode(query, return_tensors="pt", truncation=True)
     outputs = model.generate(inputs)
     translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    orig_lang=detect(query)
 
     result = {
         "generated_queries": [translation],
-        "detected_language": "en",
+        "detected_language": orig_lang,
     }
 
     with open(join(output_path, f"{query_id}.json"), "w") as f:
