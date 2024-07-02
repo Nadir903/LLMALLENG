@@ -13,3 +13,4 @@ The whole code is in the master branch, please before making changes, create a b
 #python user_inference.py --query "bunu cevir" --query_id 1 --output output
 #python prepare_dataset_not_tokenized.py  
 #python fine_tune_model.py
+#python evaluate_model.py for evaluating set the number of examples, 3000 is default
