@@ -20,7 +20,7 @@ def handle_user_query(query, query_id, output_path):
     inputs = tokenizer.encode(query, return_tensors="pt", truncation=True)
     outputs = model.generate(inputs)
     translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    orig_lang=detect(query)
+    orig_lang=detect(query)# original language
 
     result = {
         "generated_queries": [translation],
