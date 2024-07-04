@@ -1,19 +1,25 @@
 # LLMALLENG
-LLM all (spanish, turkish, arabish) to english
-The whole code is in the master branch, please before making changes, create a branch
+LLM all languages all to english
+Welcome to our repository. This implementation is translation model where the source languages spanish, turkish as well as arabic and the target language is english.  
+In order to set up this LLM, please follow these step.
 
-1. Recollect and Process Data (opus100) 
-2. Preparation of the DataSet using model 
-3. Tokenization and FineTuning (training the model) 
-4. Translation of input 
-5. Evaluation of the model 
+1. Recollect and Process Data using large data set (opus100). 
+2. Preparation of the DataSet mapping the sentences in the source language to its peer in the target language.  
+3. Tokenization and FineTuning (training the model). 
+4. Evaluation of the model and its accuracy.
+5. Translation of simple sentences.
+6. Translation of a set of articles.
+7. Test evaluation of all previous steps.
 
 This a sequence of command to execute all task. Please follow them in the order they are to be found: 
 
-python user_preprocess.py --input sample_data/article_1.json --output output
-python prepare_dataset_not_tokenized.py  
-python fine_tune_model.py
-python user_inference.py --query "Nacido el 22 de abril de 1904 en Nueva York, Robert Oppenheimer estudió filosofía, literatura e idiomas (se dice que tenía tanta facilidad para los idiomas que llegó a aprender italiano en un mes). Este hombre polifacético y con múltiples intereses también amaba los clásicos: leía los diálogos de Platón en griego y era un entusiasta del antiguo poema hindú Bhagvad Gita. Oppie, diminutivo por el cual era conocido entre sus allegados, empezó a mostrar interés por la física experimental en la Universidad de Harvard, concretamente mientras cursava la asignatura de termodinámica que impartía el profesor Percy Bridgman." --query_id 1 --output output
-python evaluate_model.py 
+1. python user_preprocess.py --input sample_data/article_1.json --output output
+2. python prepare_dataset_not_tokenized.py  
+3. python fine_tune_model.py
+4. python evaluate_model.py 
+5. python user_inference.py --query "Here comes your query in any source language" --query_id 1 --output output
+6. python translator.py --input sample_data
+7.  python test.py --part translate argument
 
-For translating multiple articles in the sample_data directory use following command: python translator.py --input sample_data
+For testing, please choose any of this argument which you want to test: {preprocess,setup,inference,prepare_dataset,fine_tune,evaluate,translate}
+
