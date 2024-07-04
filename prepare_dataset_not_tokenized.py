@@ -11,6 +11,7 @@ def load_data(source_file, target_file):
     return source_texts, target_texts
 
 
+# Format compatible with Hugging Face dataset library
 def create_dataset(source_texts, target_texts):
     data = {'translation': [{'en': src, 'target': tgt} for src, tgt in zip(source_texts, target_texts)]}
     dataset = Dataset.from_dict(data)
@@ -26,5 +27,6 @@ if not os.path.exists(source_texts_file) or not os.path.exists(target_texts_file
 else:
     source_texts, target_texts = load_data(source_texts_file, target_texts_file)
     dataset = create_dataset(source_texts, target_texts)
+    # this saves the data in Apache Arrow format (fast access and memory efficient)
     dataset.save_to_disk('not_tokenized_dataset')
     print("Dataset saved to 'not_tokenized_dataset'")

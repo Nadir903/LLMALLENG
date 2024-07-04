@@ -14,6 +14,7 @@ print("Dataset Structure:", dataset)
 print("Dataset Columns:", dataset.column_names)
 
 
+# This is a tokenization function
 def preprocess_function(examples):
     inputs = [ex['en'] for ex in examples['translation']]
     targets = [ex['target'] for ex in examples['translation']]
@@ -28,6 +29,7 @@ print("Starting tokenization...")
 tokenized_dataset = dataset.map(preprocess_function, batched=True, remove_columns=["translation"])
 print("Tokenization completed.")
 
+# This ensures the data set is in the correct format
 if not isinstance(tokenized_dataset, DatasetDict):
     tokenized_dataset = DatasetDict({"train": tokenized_dataset})
 
@@ -38,6 +40,7 @@ if "train" in tokenized_dataset:
 else:
     print("Train dataset not found in the tokenized dataset.")
 
+# select subset due to hardware limitations
 small_train_dataset = tokenized_dataset["train"].select(range(1000))
 
 device = torch.device("cpu")
@@ -45,6 +48,7 @@ print("Using CPU device")
 model.to(device)
 
 
+# Tensors form library Torch : multidimensional arrays are moved to the cpu
 def move_tensors_to_device(tensor, device):
     if isinstance(tensor, torch.Tensor):
         return tensor.to(device)
@@ -81,6 +85,7 @@ training_args = TrainingArguments(
 )
 
 
+# Inputs are moved to correct device during the forward pass.
 class CustomModel(AutoModelForSeq2SeqLM):
     def forward(self, *args, **kwargs):
         args = tuple(move_tensors_to_device(arg, device) for arg in args)
