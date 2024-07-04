@@ -1,5 +1,5 @@
 # LLMALLENG
-LLM all languages all to english
+LLM all languages to english
 Welcome to our repository. This implementation is translation model where the source languages spanish, turkish as well as arabic and the target language is english.  
 In order to set up this LLM, please follow these step.
 
@@ -11,15 +11,15 @@ In order to set up this LLM, please follow these step.
 6. Translation of a set of articles.
 7. Test evaluation of all previous steps.
 
-This a sequence of command to execute all task. Please follow them in the order they are to be found: 
+This a sequence of commands to run all task. Please execute them in the following order : 
 
-1. python user_preprocess.py --input sample_data/article_1.json --output output
-2. python prepare_dataset_not_tokenized.py  
-3. python fine_tune_model.py
-4. python evaluate_model.py 
-5. python user_inference.py --query "Here comes your query in any source language" --query_id 1 --output output
-6. python translator.py --input sample_data
-7.  python test.py --part translate argument
+1. 'python user_preprocess.py --input sample_data/article_1.json --output output'
+2. 'python prepare_dataset_not_tokenized.py'
+3. 'python fine_tune_model.py' for CPU usage and 'python fine_tune_model_GPU.py' for GPU usage
+4. 'python evaluate_model.py'
+5. 'python user_inference.py --query "Here comes your query in any source language" --query_id 1 --output output'
+6. 'python translator.py --input sample_data'
+7. 'python test.py --part translate argument'
 
 For testing, please choose any of this argument which you want to test: {preprocess,setup,inference,prepare_dataset,fine_tune,evaluate,translate}
 

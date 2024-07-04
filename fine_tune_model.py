@@ -40,7 +40,7 @@ if "train" in tokenized_dataset:
 else:
     print("Train dataset not found in the tokenized dataset.")
 
-# select subset due to hardware limitations
+# select subset due to hardware limitations. The greater the dataset is, the more accuracy the model has
 small_train_dataset = tokenized_dataset["train"].select(range(1000))
 
 device = torch.device("cpu")
