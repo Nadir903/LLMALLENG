@@ -4,20 +4,17 @@ from datasets import Dataset
 import evaluate
 import torch
 import json
-import random
 
-# Configure logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load the fine-tuned model and tokenizer
 model_name = "fine_tuned_model"
 logger.info(f"Loading model and tokenizer from {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-# Load the test dataset
-test_data_path = 'output'  # Path to the directory containing test data (same as output from user_preprocess.py)
+test_data_path = 'output'
 source_texts_path = f'{test_data_path}/source_texts.json'
 target_texts_path = f'{test_data_path}/target_texts.json'
 
@@ -28,20 +25,16 @@ with open(source_texts_path, 'r', encoding='utf-8') as f:
 with open(target_texts_path, 'r', encoding='utf-8') as f:
     target_texts = json.load(f)
 
-# Create a Dataset object for the test data
 logger.info("Creating Dataset object for the test data")
 test_dataset = Dataset.from_dict({"source_texts": source_texts, "target_texts": target_texts})
 
-# Shuffle and reduce the dataset size to 300 examples
 logger.info("Shuffling and reducing dataset size to 300 examples")
-test_dataset = test_dataset.shuffle(seed=42).select(range(3000))
+test_dataset = test_dataset.shuffle(seed=42).select(range(300))
 
-# Define the evaluation metric
 logger.info("Loading evaluation metric sacrebleu")
 metric = evaluate.load("sacrebleu", trust_remote_code=True)
 
 
-# Tokenize and generate predictions
 def evaluate_model(model, tokenizer, dataset):
     logger.info("Starting evaluation...")
     model.eval()
@@ -66,7 +59,6 @@ def evaluate_model(model, tokenizer, dataset):
     return metric.compute(predictions=predictions, references=references)
 
 
-# Run evaluation
 logger.info("Running evaluation")
 results = evaluate_model(model, tokenizer, test_dataset)
 logger.info(f"Evaluation Results: {results}")
