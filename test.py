@@ -218,10 +218,62 @@ def test_evaluate():
     shutil.rmtree(output_dir, ignore_errors=True)
 
 
+def test_translate():
+    output_dir = nanoid()
+    mkdir(output_dir)
+
+    # Create a sample input directory and JSON file
+    input_dir = nanoid()
+    mkdir(input_dir)
+
+    sample_article = {
+        "title": "Oppenheimer",
+        "timestamp": "2023-08-25T00:00:00Z",
+        "content": "Nacido el 22 de abril de 1904 en Nueva York, Robert Oppenheimer estudió filosofía, literatura e "
+                   "idiomas (se dice que tenía tanta facilidad para los idiomas que llegó a aprender italiano en un "
+                   "mes). Este hombre polifacético y con múltiples intereses también amaba los clásicos: leía los "
+                   "diálogos de Platón en griego y era un entusiasta del antiguo poema hindú Bhagvad Gita. Oppie, "
+                   "diminutivo por el cual era conocido entre sus allegados, empezó a mostrar interés por la física "
+                   "experimental en la Universidad de Harvard, concretamente mientras cursava la asignatura de "
+                   "termodinámica que impartía el profesor Percy Bridgman."
+    }
+    input_file_path = join(input_dir, "article_1.json")
+    with open(input_file_path, 'w', encoding='utf-8') as f:
+        json.dump(sample_article, f, ensure_ascii=False, indent=4)
+
+    # Run the translator script
+    result = subprocess.run([sys.executable, "translator.py", "--input_dir", input_dir], check=False,
+                            capture_output=True)
+    if result.returncode != 0:
+        print(bcolors.FAIL + "> The translator script did not run successfully.")
+        print(bcolors.FAIL + tranform_output(result.stderr.decode()))
+    else:
+        try:
+            translated_dir = "translated_articles"
+            assert isdir(translated_dir), "The directory translated_articles was not created."
+            translated_file_path = join(translated_dir, "translated_article_1.json")
+            assert isfile(translated_file_path), f"The file translated_article_1.json was not created."
+
+            with open(translated_file_path, 'r', encoding='utf-8') as f:
+                translated_data = json.load(f)
+                assert "translated_content" in translated_data, "The key 'translated_content' was not found in the translated file."
+
+            print(bcolors.OKGREEN + "> The translator script ran successfully.")
+            print(bcolors.OKBLUE + tranform_output(result.stdout.decode()))
+        except Exception as e:
+            print(bcolors.FAIL + "> The translator script did not create the expected output.")
+            print(bcolors.FAIL + tranform_output(str(e)))
+
+    shutil.rmtree(output_dir, ignore_errors=True)
+    shutil.rmtree(input_dir, ignore_errors=True)
+    shutil.rmtree("translated_articles", ignore_errors=True)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Preprocess the data.')
     parser.add_argument('--part', type=str, help='Which part of the pipeline to test.', required=True,
-                        choices=['preprocess', 'setup', 'inference', 'prepare_dataset', 'fine_tune', 'evaluate'])
+                        choices=['preprocess', 'setup', 'inference', 'prepare_dataset', 'fine_tune', 'evaluate',
+                                 'translate'])
 
     args = parser.parse_args()
     if args.part == 'preprocess':
@@ -247,3 +299,7 @@ if __name__ == "__main__":
     elif args.part == 'evaluate':
         print(bcolors.OKCYAN + "> This is the evaluate part.")
         test_evaluate()
+
+    elif args.part == 'translate':
+        print(bcolors.OKCYAN + "> This is the translate part.")
+        test_translate()
