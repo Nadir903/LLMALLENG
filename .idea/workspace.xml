@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08c4cc86-39ad-4034-8bf0-49c7bd4badaa" name="Changes" comment="added preprocessing and fine_tune_model and other minor changes">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluate_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fine_tune_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/fine_tune_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fine_tune_model_GPU.py" beforeDir="false" afterPath="$PROJECT_DIR$/fine_tune_model_GPU.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/1.json" beforeDir="false" afterPath="$PROJECT_DIR$/output/1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prepare_dataset_not_tokenized.py" beforeDir="false" afterPath="$PROJECT_DIR$/prepare_dataset_not_tokenized.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/translator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_inference.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_preprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +212,8 @@
       <workItem from="1720282814782" duration="609000" />
       <workItem from="1720455456617" duration="118000" />
       <workItem from="1720530594625" duration="259000" />
-      <workItem from="1720642914812" duration="6597000" />
+      <workItem from="1720642914812" duration="7108000" />
+      <workItem from="1720650503100" duration="1541000" />
     </task>
     <task id="LOCAL-00001" summary="added preprocessing and fine_tune_model">
       <option name="closed" value="true" />

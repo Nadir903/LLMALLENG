@@ -20,7 +20,7 @@ This a sequence of commands to run all task. Please execute them in the followin
 4. 'python evaluate_model.py'
 5. 'python user_inference.py --query "Here comes your query in any source language" --query_id 1 --output output'
 6. 'python translator.py --input sample_data'
-7. 'python test.py --part translate argument'
+7. 'python test.py --part argument'
 
 For testing, please choose any of this argument which you want to test: {preprocess,setup,inference,prepare_dataset,fine_tune,evaluate,translate}
 
