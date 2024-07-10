@@ -1,13 +1,16 @@
 import json
 import argparse
 import os
-from os.path import join, isfile, basename
+from os.path import join as juntador
+from os.path import isfile as archivo_valido
+from os.path import basename as la_base
+
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-# Load the tokenizer and model
-model_name = "fine_tuned_model"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+n = "fine_tuned_model"
+tokenizer = AutoTokenizer.from_pretrained(n)
+model = AutoModelForSeq2SeqLM.from_pretrained(n)
 
 
 def handle_user_query(query, query_id, output_path):
@@ -20,7 +23,7 @@ def handle_user_query(query, query_id, output_path):
         "detected_language": "en",
     }
 
-    with open(join(output_path, f"{query_id}.json"), "w") as f:
+    with open(juntador(output_path, f"{query_id}.json"), "w") as f:
         json.dump(result, f)
 
 
@@ -29,45 +32,45 @@ def translate_article(input_file, output_dir):
         article = json.load(f)
 
     content = article["content"]
-    query_id = article["timestamp"]  # Use timestamp as query_id to ensure uniqueness
+    query_id = article["timestamp"]
 
     handle_user_query(content, query_id, output_dir)
 
-    with open(join(output_dir, f"{query_id}.json"), 'r', encoding='utf-8') as f:
+    with open(juntador(output_dir, f"{query_id}.json"), 'r', encoding='utf-8') as f:
         result = json.load(f)
 
     article["translated_content"] = result["generated_query"]
 
-    output_file = join(output_dir, f"translated_{basename(input_file)}")
-    with open(output_file, 'w', encoding='utf-8') as f:
+    o = juntador(output_dir, f"translated_{la_base(input_file)}")
+    with open(o, 'w', encoding='utf-8') as f:
         json.dump(article, f, ensure_ascii=False, indent=4)
-    print(f"Translated article saved to {output_file}")
+    print(f"Translated article saved to {o}")
 
 
-def translate_articles_in_directory(input_dir):
-    output_dir = 'translated_articles'
+def translate_articles_in_directory(i_dir):
+    o_dir = 'translated_articles'
 
-    if not os.path.isdir(input_dir):
-        print(f"The input path {input_dir} is not a directory.")
+    if not os.path.isdir(i_dir):
+        print(f"{i_dir}  not directory.")
         return
 
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(o_dir, exist_ok=True)
 
-    for file_name in os.listdir(input_dir):
-        input_file = join(input_dir, file_name)
-        if isfile(input_file) and file_name.endswith('.json'):
+    for f in os.listdir(i_dir):
+        input_file = juntador(i_dir, f)
+        if archivo_valido(input_file) and f.endswith('.json'):
             print(f"Translating {input_file}...")
-            translate_article(input_file, output_dir)
+            translate_article(input_file, o_dir)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Translate the content of all JSON articles in a directory.')
-    parser.add_argument('--input_dir', type=str, help='Path to the input directory containing JSON files.',
+    parser = argparse.ArgumentParser(description='All articles translated.' )
+    parser.add_argument('--input_dir', type=str, help='Path to directory with JSON files.',
                         required=True)
 
     args = parser.parse_args()
-    input_dir = args.input_dir
+    i_dir = args.input_dir
 
-    translate_articles_in_directory(input_dir)
+    translate_articles_in_directory(i_dir)
 
 # python translator.py --input sample_data

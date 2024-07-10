@@ -1,40 +1,41 @@
 import argparse
 import json
-from os.path import join
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from os.path import join as juntador
+from transformers import AutoTokenizer as t
+from transformers import AutoModelForSeq2SeqLM as m
 
-model_name = "fine_tuned_model"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+mi_modelo = "fine_tuned_model"
+mi_tokenizador = t.from_pretrained(mi_modelo)
+mi_modelo = m.from_pretrained(mi_modelo)
 
 
 def handle_user_query(query, query_id, output_path):
-    inputs = tokenizer.encode(query, return_tensors="pt", truncation=True)
-    outputs = model.generate(inputs)
-    translation = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    inputs = mi_tokenizador.encode(query, return_tensors="pt", truncation=True)
+    outputs = mi_modelo.generate(inputs)
+    translation = mi_tokenizador.decode(outputs[0], skip_special_tokens=True)
 
     result = {
         "generated_query": translation,
         "detected_language": "en",
     }
 
-    with open(join(output_path, f"{query_id}.json"), "w") as f:
+    with open(juntador(output_path, f"{query_id}.json"), "w") as f:
         json.dump(result, f)
 
 
-parser = argparse.ArgumentParser(description='Run the inference.')
-parser.add_argument('--query', type=str, help='The user query.', required=True, action="append")
-parser.add_argument('--query_id', type=str, help='The IDs for the queries, in the same order as the queries.',
+parsero_Parser = argparse.ArgumentParser(description='Run the inference.')
+parsero_Parser.add_argument('--query', type=str, help='The user query.', required=True, action="append")
+parsero_Parser.add_argument('--query_id', type=str, help='The IDs for the queries, in the same order as the queries.',
                     required=True, action="append")
-parser.add_argument('--output', type=str, help='Path to the output directory.', required=True)
+parsero_Parser.add_argument('--output', type=str, help='Path to the output directory.', required=True)
 
 if __name__ == "__main__":
-    args = parser.parse_args()
+    args = parsero_Parser.parse_args()
     queries = args.query
     query_ids = args.query_id
     output = args.output
 
     assert len(queries) == len(query_ids), "The number of queries and query IDs must be the same."
 
-    for query, query_id in zip(queries, query_ids):
-        handle_user_query(query, query_id, output)
+    for busqueda, identificacion in zip(queries, query_ids):
+        handle_user_query(busqueda, identificacion, output)

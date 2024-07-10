@@ -3,30 +3,30 @@ from datasets import Dataset
 import os
 
 
-def load_data(source_file, target_file):
-    with open(source_file, 'r', encoding='utf-8') as f:
-        source_texts = json.load(f)
-    with open(target_file, 'r', encoding='utf-8') as f:
-        target_texts = json.load(f)
-    return source_texts, target_texts
+def source_target_data(all_file, en_file):
+    with open(all_file, 'r', encoding='utf-8') as f:
+        alllang_texts = json.load(f)
+    with open(en_file, 'r', encoding='utf-8') as f:
+        eng_texts = json.load(f)
+    return alllang_texts, eng_texts
 
 
 # Format compatible with Hugging Face dataset library
-def create_dataset(source_texts, target_texts):
-    data = {'translation': [{'en': src, 'target': tgt} for src, tgt in zip(source_texts, target_texts)]}
+def dataset_creation(alllang_texts, eng_texts):
+    data = {'translation': [{'en': src, 'target': tgt} for src, tgt in zip(alllang_texts, eng_texts)]}
     dataset = Dataset.from_dict(data)
     return dataset
 
 
 output_dir = 'output'
-source_texts_file = os.path.join(output_dir, 'source_texts.json')
-target_texts_file = os.path.join(output_dir, 'target_texts.json')
+es_tr_ar_file = os.path.join(output_dir, 'source_texts.json')
+en_file = os.path.join(output_dir, 'target_texts.json')
 
-if not os.path.exists(source_texts_file) or not os.path.exists(target_texts_file):
-    print(f"One or both files not found: {source_texts_file}, {target_texts_file}")
+if not os.path.exists(es_tr_ar_file) or not os.path.exists(en_file):
+    print(f"One or both files not found: {es_tr_ar_file}, {en_file}")
 else:
-    source_texts, target_texts = load_data(source_texts_file, target_texts_file)
-    dataset = create_dataset(source_texts, target_texts)
+    alllang_texts, eng_texts = source_target_data(es_tr_ar_file, en_file)
+    dataset = dataset_creation(alllang_texts, eng_texts)
     # this saves the data in Apache Arrow format (fast access and memory efficient)
     dataset.save_to_disk('not_tokenized_dataset')
     print("Dataset saved to 'not_tokenized_dataset'")

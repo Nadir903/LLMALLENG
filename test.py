@@ -4,20 +4,24 @@ import shutil
 import subprocess
 import sys
 from os import mkdir
-from os.path import join, isfile, isdir, split as split_path
+from os.path import join as juntador
+from os.path import isfile as file_valido
+from os.path import isdir as dir_valido
+
+from os.path import split as split_path_of_the_file
 from random import sample
 
 
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    HEADER = '\037[95m'
+    OKBLUE = '\037[94m'
+    OKCYAN = '\037[96m'
+    OKGREEN = '\037[92m'
+    WARNING = '\037[93m'
+    FAIL = '\037[100m'
+    ENDC = '\037[0m'
+    BOLD = '\037[1m'
+    UNDERLINE = '\037[4m'
 
 
 def nanoid(n=10):
@@ -61,11 +65,11 @@ def test_preprocess():
     else:
         try:
             for article in articles:
-                assert isfile(
-                    join(output_dir, split_path(article)[-1])), f"The file {split_path(article)[-1]} was not created."
-                with open(join(output_dir, split_path(article)[-1]), "r") as f:
+                assert file_valido(
+                    juntador(output_dir, split_path_of_the_file(article)[-1])), f"The file {split_path_of_the_file(article)[-1]} was not created."
+                with open(juntador(output_dir, split_path_of_the_file(article)[-1]), "r") as f:
                     data = json.load(f)
-                    assert "transformed_representation" in data, f"The key 'transformed_representation' was not found in the file {split_path(article)[-1]}."
+                    assert "transformed_representation" in data, f"The key 'transformed_representation' was not found in the file {split_path_of_the_file(article)[-1]}."
 
             print(bcolors.OKGREEN + "> The preprocess script ran successfully.")
             print(bcolors.OKBLUE + tranform_output(result.stdout.decode()))
@@ -103,7 +107,7 @@ def test_prepare_dataset():
         print(bcolors.FAIL + tranform_output(result.stderr.decode()))
     else:
         try:
-            assert isdir("not_tokenized_dataset"), "The directory not_tokenized_dataset was not created."
+            assert dir_valido("not_tokenized_dataset"), "The directory not_tokenized_dataset was not created."
             print(bcolors.OKGREEN + "> The prepare_dataset_not_tokenized script ran successfully.")
             print(bcolors.OKBLUE + tranform_output(result.stdout.decode()))
         except Exception as e:
@@ -133,7 +137,7 @@ def test_fine_tune():
         print(bcolors.FAIL + tranform_output(result.stderr.decode()))
     else:
         try:
-            assert isdir("fine_tuned_model"), "The directory fine_tuned_model was not created."
+            assert dir_valido("fine_tuned_model"), "The directory fine_tuned_model was not created."
             print(bcolors.OKGREEN + "> The fine_tune_model script ran successfully.")
             print(bcolors.OKBLUE + tranform_output(result.stdout.decode()))
         except Exception as e:
@@ -166,8 +170,8 @@ def test_inference():
     else:
         try:
             for query_id in query_ids:
-                assert isfile(join(out_dir, f"{query_id}.json")), f"The file {query_id}.json was not created."
-                with open(join(out_dir, f"{query_id}.json"), "r") as f:
+                assert file_valido(juntador(out_dir, f"{query_id}.json")), f"The file {query_id}.json was not created."
+                with open(juntador(out_dir, f"{query_id}.json"), "r") as f:
                     filedata = json.load(f)
                     assert "detected_language" in filedata, f"The key 'detected_language' was not found in the file {query_id}.json."
                     assert "generated_query" in filedata, f"The key 'generated_query' was not found in the file {query_id}.json."
@@ -237,7 +241,7 @@ def test_translate():
                    "experimental en la Universidad de Harvard, concretamente mientras cursava la asignatura de "
                    "termodinámica que impartía el profesor Percy Bridgman."
     }
-    input_file_path = join(input_dir, "article_1.json")
+    input_file_path = juntador(input_dir, "article_1.json")
     with open(input_file_path, 'w', encoding='utf-8') as f:
         json.dump(sample_article, f, ensure_ascii=False, indent=4)
 
@@ -250,9 +254,9 @@ def test_translate():
     else:
         try:
             translated_dir = "translated_articles"
-            assert isdir(translated_dir), "The directory translated_articles was not created."
-            translated_file_path = join(translated_dir, "translated_article_1.json")
-            assert isfile(translated_file_path), f"The file translated_article_1.json was not created."
+            assert dir_valido(translated_dir), "The directory translated_articles was not created."
+            translated_file_path = juntador(translated_dir, "translated_article_1.json")
+            assert file_valido(translated_file_path), f"The file translated_article_1.json was not created."
 
             with open(translated_file_path, 'r', encoding='utf-8') as f:
                 translated_data = json.load(f)

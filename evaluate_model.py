@@ -1,5 +1,6 @@
 import logging
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoModelForSeq2SeqLM as modelo
+from transformers import AutoTokenizer as auto_token
 from datasets import Dataset
 import evaluate
 import torch
@@ -11,18 +12,18 @@ logger = logging.getLogger(__name__)
 
 model_name = "fine_tuned_model"
 logger.info(f"Loading model and tokenizer from {model_name}")
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+tokenizer = auto_token.from_pretrained(model_name)
+model = modelo.from_pretrained(model_name)
 
 test_data_path = 'output'
-source_texts_path = f'{test_data_path}/source_texts.json'
-target_texts_path = f'{test_data_path}/target_texts.json'
+source_texts_camino = f'{test_data_path}/source_texts.json'
+target_texts_camino = f'{test_data_path}/target_texts.json'
 
-logger.info(f"Loading test data from {source_texts_path} and {target_texts_path}")
-with open(source_texts_path, 'r', encoding='utf-8') as f:
+logger.info(f"Loading test data from {source_texts_camino} and {target_texts_camino}")
+with open(source_texts_camino, 'r', encoding='utf-8') as f:
     source_texts = json.load(f)
 
-with open(target_texts_path, 'r', encoding='utf-8') as f:
+with open(target_texts_camino, 'r', encoding='utf-8') as f:
     target_texts = json.load(f)
 
 logger.info("Creating Dataset object for the test data")
