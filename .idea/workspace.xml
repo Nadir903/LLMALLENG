@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="08c4cc86-39ad-4034-8bf0-49c7bd4badaa" name="Changes" comment="added preprocessing and fine_tune_model and other minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +215,8 @@
       <workItem from="1720530594625" duration="259000" />
       <workItem from="1720642914812" duration="7108000" />
       <workItem from="1720650503100" duration="2297000" />
-      <workItem from="1720684030846" duration="4278000" />
+      <workItem from="1720684030846" duration="6420000" />
+      <workItem from="1720691382906" duration="321000" />
     </task>
     <task id="LOCAL-00001" summary="added preprocessing and fine_tune_model">
       <option name="closed" value="true" />

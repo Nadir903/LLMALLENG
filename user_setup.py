@@ -36,7 +36,7 @@ def download_large_files():
 
 
 def check_packages():
-    required_packages = ["datasets", "transformers", "evaluate", "torch", "sentencepiece"]
+    required_packages = ["datasets", "transformers", "evaluate", "torch", "sentencepiece", "sacrebleu"]
     for package in required_packages:
         try:
             __import__(package)
