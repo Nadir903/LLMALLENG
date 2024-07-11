@@ -1,6 +1,8 @@
 # LLMALLENG
 LLM all languages to english.
 
+Our group is conformed by Nadir Williams Alcalde Echegaray, Ezgi Hasret Açıkgöz and Mohamed Bouhali
+
 Welcome to our repository. This implementation is translation model where the source languages spanish, turkish as well as arabic and the target language is english.  
 In order to set up this LLM, please follow these step.
 
